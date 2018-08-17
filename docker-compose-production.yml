@@ -1,0 +1,69 @@
+version: "2"
+
+services:
+
+  app:
+    image: zzrot/alpine-caddy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - API_ADDRESS
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ./app/dist:/var/www/html
+      - ./.caddy:/root/.caddy
+    links:
+      - api
+
+  api:
+    build: ./api
+    restart: always
+    volumes:
+      - ./api:/app
+    links:
+      - redis
+      - mongo
+    depends_on:
+      - redis
+
+  gate:
+    build: ./gate
+    restart: always
+    volumes:
+      - ./gate:/app
+    links:
+      - redis
+      - mongo
+    depends_on:
+      - redis
+
+  mongo:
+    build: ./docker/mongo
+    restart: always
+    environment:
+      - MONGODB_ADMIN_USER
+      - MONGODB_ADMIN_PASS
+      - MONGODB_APPLICATION_DATABASE
+      - MONGODB_APPLICATION_USER
+      - MONGODB_APPLICATION_PASS
+    volumes_from:
+      - mongodata
+    ports:
+      - "27018:27017"
+    command: --auth
+
+  mongodata:
+    image: tianon/true
+    volumes:
+      - /data/db
+
+  redis:
+    image: redis:4.0.5-alpine
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

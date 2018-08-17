@@ -1,0 +1,6 @@
+.vscode
+.env
+.caddy
+api/examples/*
+.DS_Store
+aws/*/node_modules

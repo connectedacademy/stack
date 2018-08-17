@@ -1,0 +1,12 @@
+[submodule "app"]
+	path = app
+	url = git@github.com:connectedacademy/elevator.git
+        branch = master
+[submodule "api"]
+	path = api
+	url = git@github.com:connectedacademy/api.git
+        branch = master
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:connectedacademy/gateway.git
+        branch = master
