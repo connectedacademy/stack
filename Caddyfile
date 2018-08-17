@@ -1,56 +1,5 @@
-# Test instance
-rocket.connectedacademy.io {
-  root /var/www/html
-  tls admin@connectedacademy.io
-
-  rewrite {
-    to {path} {path}/ /index.html
-  }
-}
-
-# Depictions of Addiction
-addiction.connectedacademy.io {
-  root /var/www/html
-  tls admin@connectedacademy.io
-
-  rewrite {
-    to {path} {path}/ /index.html
-  }
-}
-
-# Mars - test instance
-mars.connectedacademy.io {
-  root /var/www/html
-  tls admin@connectedacademy.io
-
-  rewrite {
-    to {path} {path}/ /index.html
-  }
-}
-
-# Pluto - test instance
-pluto.connectedacademy.io {
-  root /var/www/html
-  tls admin@connectedacademy.io
-
-  rewrite {
-    to {path} {path}/ /index.html
-  }
-}
-
-# Machine Learning
-ml.connectedacademy.io {
-  root /var/www/html
-  tls admin@connectedacademy.io
-
-  rewrite {
-    to {path} {path}/ /index.html
-  }
-}
-
-# Staging
-staging.connectedacademy.io {
-  root /var/www/staging
+(production) {
+	root /var/www/html
   tls admin@connectedacademy.io
 
   rewrite {
@@ -68,12 +17,26 @@ api.connectedacademy.io {
   }
 }
 
-# Staging API
-stagingapi.connectedacademy.io {
-  timeouts 10m
-  proxy / stagingapi:3000 {
-    websocket
-    health_check /health
-    health_check_interval 10s
-  }
+rocket.connectedacademy.io {
+  import production
+}
+
+addiction.connectedacademy.io {
+  import production
+}
+
+mars.connectedacademy.io {
+  import production
+}
+
+pluto.connectedacademy.io {
+  import production
+}
+
+ml.connectedacademy.io {
+  import production
+}
+
+staging.connectedacademy.io {
+  import staging
 }
