@@ -1,6 +1,6 @@
 .vscode
 .env
 .caddy
-api/examples/*
+instances
 .DS_Store
 aws/*/node_modules
