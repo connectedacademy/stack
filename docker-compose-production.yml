@@ -3,7 +3,8 @@ version: "2.2"
 services:
 
   app:
-    image: connectedacademy/app:latest
+    build: ./app
+    #image: connectedacademy/app:staging
     restart: always
     ports:
       - "8002:80"
@@ -11,7 +12,6 @@ services:
       - TAG=master
       - NODE_ENV=production
       - VIRTUAL_HOST=rocket.connectedacademy.org
-    command: 'service nginx start'
 
   api:
     image: connectedacademy/api:latest
@@ -29,34 +29,8 @@ services:
     environment:
       - TAG=master
       - VIRTUAL_HOST=api.connectedacademy.org
-
-  # staging:
-  #   image: connectedacademy/api:staging
-  #   restart: always
-  #   volumes:
-  #     - ./api:/app
-  #     - ./instances:/instances
-  #   links:
-  #     - redis
-  #     - mongo
-  #   depends_on:
-  #     - redis
-  #   env_file:
-  #     - ./api/.env
-  #   environment:
-  #     - TAG=staging
-  #     - VIRTUAL_HOST=staging.local
-
-  # gate:
-  #   build: ./gate
-  #   restart: always
-  #   volumes:
-  #     - ./gate:/app
-  #   links:
-  #     - redis
-  #     - mongo
-  #   depends_on:
-  #     - redis
+      - LETSENCRYPT_HOST=api.connectedacademy.org
+      - LETSENCRYPT_EMAIL=admin@connectedacademy.io
 
   nginx-proxy:
     image: jwilder/nginx-proxy
