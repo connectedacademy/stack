@@ -3,20 +3,19 @@ version: "2.2"
 services:
 
   app:
-    build: ./app
-    #image: connectedacademy/app:staging
+    #build: ./app
+    image: connectedacademy/app:staging
     restart: always
-    ports:
-      - "8002:80"
     environment:
       - TAG=master
       - NODE_ENV=production
-      - VIRTUAL_HOST=rocket.connectedacademy.org,addiction.connectedacademy.org
-      - LETSENCRYPT_HOST=rocket.connectedacademy.org,addiction.connectedacademy.org
+      - VIRTUAL_HOST=rocket.connectedacademy.org,addiction.connectedacademy.org,mars.connectedacademy.org,pluto.connectedacademy.org
+      - LETSENCRYPT_HOST=rocket.connectedacademy.org,addiction.connectedacademy.org,mars.connectedacademy.io,pluto.connectedacademy.org
       - LETSENCRYPT_EMAIL=admin@connectedacademy.io
 
   api:
-    image: connectedacademy/api:latest
+    build: ./api
+    image: connectedacademy/api:staging
     restart: always
     volumes:
       - ./instances:/instances
