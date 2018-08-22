@@ -1,42 +1,80 @@
-version: "2"
+version: "2.2"
 
 services:
 
   app:
-    image: zzrot/alpine-caddy
+    image: connectedacademy/app:latest
+    restart: always
     ports:
-      - 80:80
-      - 443:443
+      - "8002:80"
     environment:
-      - API_ADDRESS
-    volumes:
-      - ./Caddyfile:/etc/Caddyfile
-      - ./app/dist:/var/www/html
-      - ./.caddy:/root/.caddy
-    links:
-      - api
+      - TAG=master
+      - NODE_ENV=production
+      - VIRTUAL_HOST=rocket.connectedacademy.org
+    command: 'service nginx start'
 
   api:
-    build: ./api
+    image: connectedacademy/api:latest
     restart: always
     volumes:
-      - ./api:/app
+      - ./instances:/instances
     links:
       - redis
       - mongo
+    scale: 3
     depends_on:
       - redis
+    env_file:
+      - ./api/.env
+    environment:
+      - TAG=master
+      - VIRTUAL_HOST=api.connectedacademy.org
 
-  gate:
-    build: ./gate
-    restart: always
+  # staging:
+  #   image: connectedacademy/api:staging
+  #   restart: always
+  #   volumes:
+  #     - ./api:/app
+  #     - ./instances:/instances
+  #   links:
+  #     - redis
+  #     - mongo
+  #   depends_on:
+  #     - redis
+  #   env_file:
+  #     - ./api/.env
+  #   environment:
+  #     - TAG=staging
+  #     - VIRTUAL_HOST=staging.local
+
+  # gate:
+  #   build: ./gate
+  #   restart: always
+  #   volumes:
+  #     - ./gate:/app
+  #   links:
+  #     - redis
+  #     - mongo
+  #   depends_on:
+  #     - redis
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./gate:/app
-    links:
-      - redis
-      - mongo
-    depends_on:
-      - redis
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "/etc/nginx/certs"
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - "nginx-proxy"
 
   mongo:
     build: ./docker/mongo
@@ -62,6 +100,8 @@ services:
     image: redis:4.0.5-alpine
     restart: always
     command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
     volumes:
       - redis-data:/data
 
