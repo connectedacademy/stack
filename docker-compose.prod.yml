@@ -1,0 +1,37 @@
+version: "2.2"
+
+services:
+
+  app:
+    #build: ./app
+    image: connectedacademy/app:latest
+    restart: always
+    environment:
+      - TAG=master
+      - NODE_ENV=production
+      - VIRTUAL_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
+      - LETSENCRYPT_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
+      - LETSENCRYPT_EMAIL=admin@connectedacademy.io
+
+  api:
+    #build: ./api
+    image: connectedacademy/api:latest
+    restart: always
+    volumes:
+      - ./instances:/instances
+    links:
+      - redis
+      - mongo
+    scale: 1
+    depends_on:
+      - redis
+    env_file:
+      - ./api/.env
+    environment:
+      - TAG=master
+      - VIRTUAL_HOST=api.connectedacademy.io
+      - LETSENCRYPT_HOST=api.connectedacademy.io
+      - LETSENCRYPT_EMAIL=admin@connectedacademy.io
+
+volumes:
+  redis-data:

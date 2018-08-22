@@ -2,33 +2,6 @@ version: "2.2"
 
 services:
 
-  app:
-    build: ./app
-    restart: always
-    ports:
-      - "8002:80"
-    environment:
-      - TAG=master
-      - NODE_ENV=staging #production
-      - VIRTUAL_HOST=ca.local,rocket.local,staging.local
-
-  api:
-    build: ./api
-    restart: always
-    volumes:
-      - ./instances:/instances
-    links:
-      - redis
-      - mongo
-    scale: 3
-    depends_on:
-      - redis
-    env_file:
-      - ./api/.env
-    environment:
-      - TAG=master
-      - VIRTUAL_HOST=api.local
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
