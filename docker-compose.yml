@@ -29,10 +29,10 @@ services:
       - MONGODB_APPLICATION_DATABASE
       - MONGODB_APPLICATION_USER
       - MONGODB_APPLICATION_PASS
+    ports:
+      - "27019:27017"
     volumes_from:
       - mongodata
-    ports:
-      - "27018:27017"
     command: --auth
 
   mongodata:
@@ -44,8 +44,6 @@ services:
     image: redis:4.0.5-alpine
     restart: always
     command: ["redis-server", "--appendonly", "yes"]
-    ports:
-      - "6379:6379"
     volumes:
       - redis-data:/data
 
