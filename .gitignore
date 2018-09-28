@@ -4,3 +4,4 @@
 instances
 .DS_Store
 aws/*/node_modules
+archive
