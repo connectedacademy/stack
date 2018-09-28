@@ -2,6 +2,11 @@ version: "2.2"
 
 services:
 
+  gateway:
+    build: ./gateway
+    links:
+      - redis
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
