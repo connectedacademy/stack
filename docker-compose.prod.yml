@@ -2,11 +2,6 @@ version: "2.2"
 
 services:
 
-  gateway:
-    build: ./gateway
-    links:
-      - redis
-
   app:
     #build: ./app
     image: connectedacademy/app:latest
