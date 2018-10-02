@@ -9,8 +9,8 @@ services:
     environment:
       - TAG=master
       - NODE_ENV=production
-      - VIRTUAL_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
-      - LETSENCRYPT_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
+      - VIRTUAL_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,depictions.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
+      - LETSENCRYPT_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,depictions.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
       - LETSENCRYPT_EMAIL=admin@connectedacademy.io
 
   api:
