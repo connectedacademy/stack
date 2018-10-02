@@ -4,7 +4,7 @@ services:
 
   app:
     #build: ./app
-    image: connectedacademy/app:latest
+    image: connectedacademy/app:staging
     restart: always
     environment:
       - TAG=master
@@ -15,7 +15,7 @@ services:
 
   api:
     #build: ./api
-    image: connectedacademy/api:latest
+    image: connectedacademy/api:staging
     restart: always
     volumes:
       - ./instances:/instances
