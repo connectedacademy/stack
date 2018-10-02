@@ -52,5 +52,25 @@ services:
     volumes:
       - redis-data:/data
 
+  mongobackup:
+    build: ./utilities/backup
+    restart: always
+    links:
+      - mongo
+    ports:
+      - 27018
+    environment:
+      - MONGO_HOST
+      - MONGO_DB
+      - MONGO_PORT
+      - S3_BUCKET
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - MONGODB_APPLICATION_USER
+      - MONGODB_APPLICATION_PASS
+      - BACKUP_TIME=00:00
+      #- DATE_FORMAT
+      #- FILE_PREFIX
+
 volumes:
   redis-data:
