@@ -4,18 +4,18 @@ services:
 
   app:
     #build: ./app
-    image: connectedacademy/app:staging
+    image: connectedacademy/app:latest
     restart: always
     environment:
       - TAG=master
       - NODE_ENV=production
-      - VIRTUAL_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,depictions.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
-      - LETSENCRYPT_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io,depictions.connectedacademy.io,mars.connectedacademy.io,pluto.connectedacademy.io
+      - VIRTUAL_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io
+      - LETSENCRYPT_HOST=rocket.connectedacademy.io,addiction.connectedacademy.io
       - LETSENCRYPT_EMAIL=admin@connectedacademy.io
 
   api:
     #build: ./api
-    image: connectedacademy/api:staging
+    image: connectedacademy/api:latest
     restart: always
     volumes:
       - ./instances:/instances
